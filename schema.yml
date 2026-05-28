@@ -1,0 +1,5923 @@
+components:
+  schemas:
+    AccountProvider:
+      properties:
+        account:
+          format: uuid
+          readOnly: true
+          type: string
+        commitment:
+          format: uuid
+          nullable: true
+          type: string
+        display_name:
+          type: string
+        enable_commitment:
+          type: boolean
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        is_builtin:
+          type: boolean
+        is_disabled:
+          type: boolean
+        provider:
+          type: integer
+        provider_details:
+          allOf:
+          - $ref: '#/components/schemas/Provider'
+          readOnly: true
+        service_ids:
+          readOnly: true
+          type: string
+        service_uids:
+          readOnly: true
+          type: string
+      required:
+      - account
+      - id
+      - provider
+      - provider_details
+      - service_ids
+      - service_uids
+      type: object
+    AccountProviderCommitment:
+      properties:
+        account_providers:
+          items:
+            format: uuid
+            type: string
+          type: array
+        average_object_size_bytes:
+          format: double
+          minimum: 0
+          nullable: true
+          type: number
+        commitment_gb_per_month:
+          format: double
+          minimum: 0
+          nullable: true
+          type: number
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          type: string
+      required:
+      - account_providers
+      - id
+      - name
+      type: object
+    Alert:
+      properties:
+        account:
+          format: uuid
+          readOnly: true
+          type: string
+        account_providers:
+          items:
+            format: uuid
+            type: string
+          type: array
+        alert_type:
+          maxLength: 255
+          type: string
+        channels:
+          items:
+            format: uuid
+            type: string
+          type: array
+        enabled:
+          type: boolean
+        health_checks:
+          items:
+            format: uuid
+            type: string
+          type: array
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s]*$
+          type: string
+        restrict_to_account_providers:
+          type: boolean
+        restrict_to_health_checks:
+          type: boolean
+        restrict_to_services:
+          type: boolean
+        services:
+          items:
+            format: uuid
+            type: string
+          type: array
+        threshold:
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+          type: integer
+      required:
+      - account
+      - alert_type
+      - channels
+      - id
+      - name
+      type: object
+    AlertChannel:
+      properties:
+        account:
+          format: uuid
+          readOnly: true
+          type: string
+        channel_destination:
+          maxLength: 512
+          nullable: true
+          type: string
+        channel_type:
+          $ref: '#/components/schemas/ChannelTypeEnum'
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s]*$
+          type: string
+      required:
+      - account
+      - channel_type
+      - id
+      - name
+      type: object
+    Behavior:
+      properties:
+        additional_paths:
+          nullable: true
+          type: string
+        behavior_actions:
+          items:
+            $ref: '#/components/schemas/BehaviorAction'
+          type: array
+        complex_condition:
+          nullable: true
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        is_default:
+          type: boolean
+        is_partially_contained:
+          type: boolean
+        name:
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s./]*$
+          type: string
+        path_pattern:
+          maxLength: 1024
+          type: string
+        service:
+          format: uuid
+          type: string
+      required:
+      - behavior_actions
+      - id
+      - name
+      - service
+      type: object
+    BehaviorAction:
+      properties:
+        add_cache_tag:
+          nullable: true
+          type: string
+        allow_access_only_from_ip:
+          nullable: true
+        allowed_methods:
+          type: string
+        auto_minify:
+          maxLength: 1024
+          nullable: true
+          type: string
+        cache_behavior_value:
+          maxLength: 255
+          nullable: true
+          type: string
+        cache_key:
+          nullable: true
+          type: string
+        cache_tag_response_header:
+          nullable: true
+          type: string
+        cached_methods:
+          type: string
+        cookie:
+          maxLength: 255
+          nullable: true
+          type: string
+        cors_allow_origin_domain:
+          type: boolean
+        deny_access_by_ip:
+          nullable: true
+        deny_access_by_time:
+          nullable: true
+        enable_websockets:
+          nullable: true
+          type: boolean
+        enabled:
+          nullable: true
+          type: boolean
+        generate_preflight_allowed_headers:
+          nullable: true
+          type: string
+        host_header:
+          maxLength: 255
+          nullable: true
+          type: string
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        max_ttl:
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+          type: integer
+        origin:
+          format: uuid
+          nullable: true
+          type: string
+        origin_cache_control_enabled:
+          nullable: true
+          type: boolean
+        override_header_value:
+          nullable: true
+          type: boolean
+        pattern:
+          maxLength: 1024
+          nullable: true
+          type: string
+        redirect_source:
+          nullable: true
+          type: string
+        redirect_url:
+          nullable: true
+          type: string
+        remove_query_strings:
+          nullable: true
+        request_header_name:
+          maxLength: 255
+          nullable: true
+          type: string
+        request_header_value:
+          maxLength: 255
+          nullable: true
+          type: string
+        response_header_name:
+          maxLength: 1024
+          nullable: true
+          type: string
+        response_header_value:
+          maxLength: 4096
+          nullable: true
+          type: string
+        response_page_path:
+          nullable: true
+          type: string
+        status_code:
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+          type: integer
+        type:
+          maxLength: 255
+          type: string
+        unified_log_destination:
+          format: uuid
+          nullable: true
+          type: string
+        unified_log_sampling_rate:
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+          type: integer
+        unmanaged_behavior:
+          nullable: true
+          type: string
+        url_rewrite_destination:
+          nullable: true
+          type: string
+        url_rewrite_source:
+          nullable: true
+          type: string
+        use_domain_origin:
+          nullable: true
+          type: boolean
+        viewer_protocol:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ViewerProtocolEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+      required:
+      - id
+      - type
+      type: object
+    BlankEnum:
+      enum:
+      - ''
+    Certificate:
+      properties:
+        account:
+          format: uuid
+          readOnly: true
+          type: string
+        certificate:
+          description: Certificate required for a Self-Managed certificate
+          type: string
+          writeOnly: true
+        certificate_chain:
+          description: Certificate Authority (CA) chain required for a                                                 Self-Managed
+            certificate
+          type: string
+          writeOnly: true
+        challenges:
+          readOnly: true
+          type: string
+        cn:
+          description: Fully qualified domain names for which the certificate is issued,
+            required for a Managed certificate
+          maxLength: 8192
+          type: string
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          type: string
+        not_valid_after:
+          description: Certificate expiration date
+          format: date-time
+          nullable: true
+          readOnly: true
+          type: string
+        private_key:
+          description: Private key required for a Self-Managed certificate
+          type: string
+          writeOnly: true
+        providers_certificates:
+          description: Required for an External certificate
+          items:
+            $ref: '#/components/schemas/ProviderCertificate'
+          type: array
+        status:
+          readOnly: true
+          type: string
+        status_text:
+          readOnly: true
+          type: string
+        type:
+          allOf:
+          - $ref: '#/components/schemas/CertificateTypeEnum'
+          description: 'Certificate type
+
+
+            * `MANAGED` - Certificate created and managed by the IO River platform
+
+            * `SELF_MANAGED` - Self created and managed certificate
+
+            * `EXTERNAL` - Certificate manually deployed and managed in each provider'
+      required:
+      - account
+      - challenges
+      - id
+      - name
+      - not_valid_after
+      - status
+      - status_text
+      - type
+      type: object
+    CertificateTypeEnum:
+      description: '* `MANAGED` - Certificate created and managed by the IO River
+        platform
+
+        * `SELF_MANAGED` - Self created and managed certificate
+
+        * `EXTERNAL` - Certificate manually deployed and managed in each provider'
+      enum:
+      - MANAGED
+      - SELF_MANAGED
+      - EXTERNAL
+      type: string
+    ChannelTypeEnum:
+      description: '* `slack` - Slack
+
+        * `email` - Email
+
+        * `admin` - Admin'
+      enum:
+      - slack
+      - email
+      - admin
+      type: string
+    Compute:
+      properties:
+        compute_routes:
+          items:
+            $ref: '#/components/schemas/ComputeRoute'
+          type: array
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          pattern: ^(?=[a-zA-Z_])(?=\S)([a-zA-Z]|[a-zA-Z][a-zA-Z0-9_\- ]+)$
+          type: string
+        request_code:
+          maxLength: 1048576
+          nullable: true
+          type: string
+        response_code:
+          maxLength: 1048576
+          nullable: true
+          type: string
+        service:
+          format: uuid
+          type: string
+      required:
+      - compute_routes
+      - id
+      - name
+      - service
+      type: object
+    ComputeRoute:
+      properties:
+        domain:
+          maxLength: 255
+          type: string
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        path:
+          maxLength: 1024
+          type: string
+      required:
+      - domain
+      - id
+      - path
+      type: object
+    DomainConfig:
+      properties:
+        aliases:
+          items:
+            maxLength: 255
+            type: string
+          maxItems: 10
+          type: array
+        domain:
+          maxLength: 255
+          type: string
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        mappings:
+          items:
+            $ref: '#/components/schemas/DomainMappingTarget'
+          type: array
+        service:
+          format: uuid
+          readOnly: true
+          type: string
+      required:
+      - aliases
+      - domain
+      - id
+      - mappings
+      - service
+      type: object
+    DomainMappingTarget:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        path_pattern:
+          maxLength: 1024
+          nullable: true
+          type: string
+        target_id:
+          format: uuid
+          type: string
+        target_type:
+          default: origin
+          oneOf:
+          - $ref: '#/components/schemas/TargetTypeEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+      required:
+      - id
+      - target_id
+      type: object
+    FileFormatEnum:
+      description: '* `json-list` - Json List
+
+        * `json-object` - Json Object
+
+        * `json-line-delimited` - Json Line Delimited
+
+        * `csv` - Csv'
+      enum:
+      - json-list
+      - json-object
+      - json-line-delimited
+      - csv
+      type: string
+    GeoRestriction:
+      properties:
+        countries:
+          items:
+            $ref: '#/components/schemas/GeoRestrictionCountry'
+          type: array
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        service:
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/GeoRestrictionTypeEnum'
+      required:
+      - countries
+      - id
+      - service
+      - type
+      type: object
+    GeoRestrictionCountry:
+      properties:
+        country:
+          description: Country 2 letter iso code
+          maxLength: 2
+          type: string
+      required:
+      - country
+      type: object
+    GeoRestrictionTypeEnum:
+      description: '* `allow` - Allow
+
+        * `deny` - Deny'
+      enum:
+      - allow
+      - deny
+      type: string
+    HealthCheck:
+      properties:
+        enabled:
+          type: boolean
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s]*$
+          type: string
+        service:
+          format: uuid
+          type: string
+        url:
+          maxLength: 4096
+          type: string
+      required:
+      - id
+      - name
+      - service
+      - url
+      type: object
+    LoadBalancer:
+      properties:
+        custom_rules:
+          items:
+            $ref: '#/components/schemas/LoadBalancerCustomRule'
+          readOnly: true
+          type: array
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s]*$
+          type: string
+        origin_sets:
+          items:
+            $ref: '#/components/schemas/LoadBalancerOriginSet'
+          type: array
+        service:
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/LoadBalancerTypeEnum'
+      required:
+      - custom_rules
+      - id
+      - name
+      - origin_sets
+      - service
+      - type
+      type: object
+    LoadBalancerCustomRule:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        load_balancer:
+          format: uuid
+          type: string
+        matching_rule: {}
+        name:
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s]*$
+          type: string
+        origin_set:
+          format: uuid
+          type: string
+        origin_set_name:
+          readOnly: true
+          type: string
+        priority:
+          format: int64
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          nullable: true
+          type: integer
+      required:
+      - id
+      - load_balancer
+      - matching_rule
+      - name
+      - origin_set
+      - origin_set_name
+      type: object
+    LoadBalancerOriginSet:
+      properties:
+        name:
+          readOnly: true
+          type: string
+        origin_set:
+          format: uuid
+          type: string
+        origins:
+          readOnly: true
+          type: string
+        weight:
+          maximum: 255
+          minimum: 0
+          type: integer
+      required:
+      - name
+      - origin_set
+      - origins
+      type: object
+    LoadBalancerTypeEnum:
+      description: '* `weighted` - Weighted'
+      enum:
+      - weighted
+      type: string
+    Metrics:
+      properties:
+        bytes:
+          type: integer
+        cachedBytesPercentage:
+          type: number
+        cachedHitsPercentage:
+          type: number
+        errorsPercentage:
+          type: number
+        hits:
+          type: integer
+      type: object
+    NullEnum:
+      enum:
+      - null
+    Origin:
+      properties:
+        host:
+          maxLength: 255
+          pattern: (^(?=.{1,253}\.)[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z]{2,}$)|(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$)|(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))
+          type: string
+        http_port:
+          maximum: 65535
+          minimum: 0
+          type: integer
+        https_port:
+          maximum: 65535
+          minimum: 0
+          type: integer
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        is_private_s3:
+          type: boolean
+        is_s3:
+          type: boolean
+        msl_data:
+          maxLength: 1024
+          nullable: true
+          type: string
+          writeOnly: true
+        msl_secret:
+          maxLength: 1024
+          nullable: true
+          type: string
+          writeOnly: true
+        nonce:
+          maxLength: 1024
+          nullable: true
+          type: string
+          writeOnly: true
+        path:
+          type: string
+        protocol:
+          $ref: '#/components/schemas/ProtocolEnum'
+        s3_aws_region:
+          nullable: true
+          type: string
+        s3_bucket_name:
+          nullable: true
+          type: string
+        secret_key:
+          maxLength: 1024
+          minLength: 10
+          nullable: true
+          pattern: ^[a-zA-Z0-9]+$
+          type: string
+          writeOnly: true
+        service:
+          format: uuid
+          type: string
+        service_provider:
+          allOf:
+          - $ref: '#/components/schemas/ServiceProvider'
+          nullable: true
+        shield_location:
+          nullable: true
+        shield_providers:
+          items:
+            $ref: '#/components/schemas/OriginShieldProvider'
+          type: array
+        sni_hostname:
+          nullable: true
+          type: string
+        timeout_ms:
+          maximum: 600000
+          minimum: 0
+          nullable: true
+          type: integer
+        type:
+          $ref: '#/components/schemas/OriginTypeEnum'
+        verify_tls:
+          type: boolean
+      required:
+      - host
+      - id
+      - service
+      type: object
+    OriginSet:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s]*$
+          type: string
+        origins:
+          items:
+            $ref: '#/components/schemas/OriginSetMember'
+          type: array
+        service:
+          format: uuid
+          type: string
+      required:
+      - id
+      - name
+      - origins
+      - service
+      type: object
+    OriginSetMember:
+      properties:
+        host:
+          maxLength: 255
+          pattern: (^(?=.{1,253}\.)[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)*\.[a-zA-Z]{2,}$)|(^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$)|(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))
+          type: string
+        port:
+          maximum: 65535
+          minimum: 0
+          type: integer
+        protocol:
+          $ref: '#/components/schemas/ProtocolEnum'
+        weight:
+          maximum: 255
+          minimum: 0
+          type: integer
+      required:
+      - host
+      - port
+      - weight
+      type: object
+    OriginSetSerializerNew:
+      properties:
+        failover_config:
+          additionalProperties: {}
+          type: object
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          type: string
+        origins:
+          items:
+            $ref: '#/components/schemas/Origin'
+          type: array
+        service:
+          format: uuid
+          readOnly: true
+          type: string
+        type:
+          maxLength: 255
+          type: string
+      required:
+      - id
+      - name
+      - origins
+      - service
+      - type
+      type: object
+    OriginShieldProvider:
+      properties:
+        service_provider:
+          format: uuid
+          type: string
+      required:
+      - service_provider
+      type: object
+    OriginTypeEnum:
+      description: '* `CUSTOM` - Custom
+
+        * `SERVICE_PROVIDER` - Service Provider
+
+        * `MSL4` - Msl4
+
+        * `MSL5` - Msl5'
+      enum:
+      - CUSTOM
+      - SERVICE_PROVIDER
+      - MSL4
+      - MSL5
+      type: string
+    PerformanceCheck:
+      properties:
+        enabled:
+          type: boolean
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s]*$
+          type: string
+        service:
+          format: uuid
+          type: string
+        url:
+          maxLength: 4096
+          type: string
+      required:
+      - id
+      - name
+      - service
+      - url
+      type: object
+    Point:
+      properties:
+        metrics:
+          items:
+            $ref: '#/components/schemas/ProviderMetrics'
+          type: array
+        timestamp:
+          type: integer
+      type: object
+    ProtocolConfig:
+      properties:
+        http2_enabled:
+          description: Allow HTTP/2
+          type: boolean
+        http3_enabled:
+          description: Allow HTTP/3
+          type: boolean
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        ipv6_enabled:
+          description: Enable IPv6
+          type: boolean
+        service:
+          format: uuid
+          type: string
+      required:
+      - id
+      - service
+      type: object
+    ProtocolEnum:
+      description: '* `HTTP` - Http
+
+        * `HTTPS` - Https
+
+        * `HTTP & HTTPS` - Both'
+      enum:
+      - HTTP
+      - HTTPS
+      - HTTP & HTTPS
+      type: string
+    Provider:
+      properties:
+        id:
+          readOnly: true
+          type: integer
+        name:
+          maxLength: 255
+          type: string
+      required:
+      - id
+      - name
+      type: object
+    ProviderCertificate:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        not_valid_after:
+          format: date-time
+          nullable: true
+          type: string
+        provider:
+          format: uuid
+          type: string
+        provider_certificate_id:
+          type: string
+        provider_name:
+          readOnly: true
+          type: string
+      required:
+      - id
+      - provider
+      - provider_certificate_id
+      - provider_name
+      type: object
+    ProviderExistsResponse:
+      properties:
+        exists:
+          type: boolean
+        service_name:
+          type: string
+      required:
+      - exists
+      - service_name
+      type: object
+    ProviderMetrics:
+      properties:
+        metrics:
+          $ref: '#/components/schemas/Metrics'
+        providerName:
+          type: string
+      type: object
+    PurgeRecord:
+      properties:
+        paths:
+          description: Comma separated paths in specific purge request
+          readOnly: true
+          type: string
+        serviceId:
+          description: IORiver service ID
+          format: uuid
+          readOnly: true
+          type: string
+        status:
+          readOnly: true
+          type: string
+        timestamp:
+          description: UTC milliseconds from epoch
+          type: integer
+      type: object
+    PurgeRequest:
+      properties:
+        patterns:
+          items:
+            type: string
+          type: array
+      required:
+      - patterns
+      type: object
+    PurgeTagsRequest:
+      properties:
+        tags:
+          description: Comma separated tags list to purge
+          items:
+            type: string
+          type: array
+      required:
+      - tags
+      type: object
+    RateLimitRule:
+      properties:
+        block_duration_seconds:
+          type: integer
+        condition: {}
+        id:
+          format: uuid
+          nullable: true
+          type: string
+        name:
+          maxLength: 255
+          type: string
+        num_of_requests:
+          type: integer
+        time_window_seconds:
+          type: integer
+      required:
+      - block_duration_seconds
+      - condition
+      - name
+      - num_of_requests
+      - time_window_seconds
+      type: object
+    RateLimitRules:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        rules:
+          items:
+            $ref: '#/components/schemas/RateLimitRule'
+          type: array
+      required:
+      - id
+      - rules
+      type: object
+    Service:
+      properties:
+        account:
+          description: A user account.
+          format: uuid
+          readOnly: true
+          type: string
+        active_version:
+          readOnly: true
+          type: string
+        certificate:
+          readOnly: true
+          type: string
+        certificates:
+          readOnly: true
+          type: string
+        cname:
+          readOnly: true
+          type: string
+        description:
+          description: Some useful description
+          maxLength: 255
+          nullable: true
+          type: string
+        enable_complex_behavior_conditions:
+          type: boolean
+        enable_extended_statistics:
+          type: boolean
+        enable_filter_stats_by_domain:
+          type: boolean
+        enable_user_statistics:
+          type: boolean
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        modified:
+          format: date-time
+          readOnly: true
+          type: string
+        name:
+          description: A service name.
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s]*$
+          type: string
+        read_only:
+          description: Is a service read only?
+          readOnly: true
+          type: boolean
+        service_template:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/ServiceTemplateEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        service_uid:
+          readOnly: true
+          type: string
+      required:
+      - account
+      - active_version
+      - certificate
+      - certificates
+      - cname
+      - id
+      - modified
+      - name
+      - read_only
+      - service_uid
+      type: object
+    ServiceCertificate:
+      properties:
+        certificate:
+          format: uuid
+          type: string
+        certificate_cn:
+          readOnly: true
+          type: string
+        certificate_name:
+          readOnly: true
+          type: string
+        certificate_not_valid_after:
+          readOnly: true
+          type: string
+        certificate_type:
+          readOnly: true
+          type: string
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        service:
+          format: uuid
+          type: string
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEnum'
+          readOnly: true
+      required:
+      - certificate
+      - certificate_cn
+      - certificate_name
+      - certificate_not_valid_after
+      - certificate_type
+      - id
+      - service
+      - status
+      type: object
+    ServiceConfig:
+      properties:
+        certificate_id:
+          format: uuid
+          type: string
+        description:
+          maxLength: 255
+          type: string
+        service_config: {}
+      required:
+      - certificate_id
+      - description
+      - service_config
+      type: object
+    ServiceConfigVersion:
+      properties:
+        config_json:
+          nullable: true
+        description:
+          description: Change description
+          maxLength: 255
+          nullable: true
+          type: string
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        parent_version:
+          maximum: 2147483647
+          minimum: -2147483648
+          type: integer
+        service:
+          format: uuid
+          readOnly: true
+          type: string
+        version:
+          readOnly: true
+          type: integer
+      required:
+      - id
+      - parent_version
+      - service
+      - version
+      type: object
+    ServiceProvider:
+      properties:
+        account_provider:
+          format: uuid
+          type: string
+        akamai_amd_stream:
+          nullable: true
+          type: string
+        cname:
+          maxLength: 255
+          nullable: true
+          type: string
+        custom_data:
+          nullable: true
+          type: string
+        display_name:
+          maxLength: 255
+          nullable: true
+          type: string
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        is_unmanaged:
+          default: false
+          type: boolean
+          writeOnly: true
+        name:
+          readOnly: true
+          type: string
+        restored:
+          readOnly: true
+          type: boolean
+        service:
+          format: uuid
+          type: string
+        status:
+          readOnly: true
+          type: string
+        status_details:
+          nullable: true
+          readOnly: true
+          type: string
+        use_akamai_media_services:
+          type: boolean
+      required:
+      - id
+      - name
+      - restored
+      - service
+      - status
+      - status_details
+      type: object
+    ServiceStats:
+      properties:
+        points:
+          items:
+            $ref: '#/components/schemas/Point'
+          type: array
+        serviceID:
+          type: string
+      type: object
+    ServiceTemplateEnum:
+      description: '* `DEFAULT` - Default
+
+        * `LIVE` - Live
+
+        * `VOD` - Vod'
+      enum:
+      - DEFAULT
+      - LIVE
+      - VOD
+      type: string
+    ServiceUpdate:
+      properties:
+        account:
+          description: A user account.
+          format: uuid
+          readOnly: true
+          type: string
+        cname:
+          readOnly: true
+          type: string
+        description:
+          description: Some useful description
+          maxLength: 255
+          nullable: true
+          type: string
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          description: A service name.
+          maxLength: 255
+          pattern: ^[a-zA-Z0-9_\-\s]*$
+          type: string
+        read_only:
+          description: Is a service read only?
+          readOnly: true
+          type: boolean
+        service_uid:
+          readOnly: true
+          type: string
+      required:
+      - account
+      - cname
+      - id
+      - name
+      - read_only
+      - service_uid
+      type: object
+    StatusEnum:
+      description: '* `Active` - Active
+
+        * `Deploying` - Deploying
+
+        * `Removing` - Removing
+
+        * `Replacing` - Replacing
+
+        * `Deploying (replace)` - Deploying Replacement
+
+        * `Pending` - Pending'
+      enum:
+      - Active
+      - Deploying
+      - Removing
+      - Replacing
+      - Deploying (replace)
+      - Pending
+      type: string
+    TargetTypeEnum:
+      description: '* `origin` - Origin
+
+        * `origin_set` - Origin Set'
+      enum:
+      - origin
+      - origin_set
+      type: string
+    TrafficOvertimeResponse:
+      properties:
+        granularity:
+          enum:
+          - MINUTE
+          - HOUR
+          - DAY
+          type: string
+        serviceStats:
+          items:
+            $ref: '#/components/schemas/ServiceStats'
+          type: array
+      type: object
+    TrafficPolicy:
+      properties:
+        asns:
+          description: A JSON list of ASNs for the policy
+          nullable: true
+        enable_performance_penalty:
+          nullable: true
+          type: boolean
+        failover:
+          type: boolean
+        geos:
+          items:
+            $ref: '#/components/schemas/TrafficPolicyGeo'
+          type: array
+        health_checks:
+          items:
+            $ref: '#/components/schemas/TrafficPolicyHealthCheck'
+          type: array
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        is_default:
+          type: boolean
+        performance_checks:
+          items:
+            $ref: '#/components/schemas/TrafficPolicyPerformanceCheck'
+          type: array
+        performance_penalty:
+          maximum: 300
+          minimum: 10
+          nullable: true
+          type: integer
+        providers:
+          items:
+            $ref: '#/components/schemas/TrafficPolicyProvider'
+          type: array
+        service:
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/TrafficPolicyTypeEnum'
+      required:
+      - geos
+      - health_checks
+      - id
+      - performance_checks
+      - providers
+      - service
+      - type
+      type: object
+    TrafficPolicyGeo:
+      properties:
+        continent:
+          maxLength: 20
+          nullable: true
+          type: string
+        country:
+          maxLength: 20
+          nullable: true
+          type: string
+        subdivision:
+          maxLength: 20
+          nullable: true
+          type: string
+      type: object
+    TrafficPolicyHealthCheck:
+      properties:
+        health_check:
+          format: uuid
+          type: string
+      required:
+      - health_check
+      type: object
+    TrafficPolicyPerformanceCheck:
+      properties:
+        performance_check:
+          format: uuid
+          type: string
+      required:
+      - performance_check
+      type: object
+    TrafficPolicyProvider:
+      properties:
+        is_commitment_priority:
+          nullable: true
+          type: boolean
+        performance_penalty:
+          format: double
+          maximum: 10
+          minimum: 1
+          nullable: true
+          type: number
+        priority:
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+          type: integer
+        service_provider:
+          format: uuid
+          type: string
+        weight:
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+          type: integer
+      required:
+      - service_provider
+      type: object
+    TrafficPolicyTypeEnum:
+      description: '* `Static` - Static
+
+        * `Dynamic` - Dynamic
+
+        * `Cost based` - Cost Based'
+      enum:
+      - Static
+      - Dynamic
+      - Cost based
+      type: string
+    URLSigningKey:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          type: string
+        provider_keys:
+          additionalProperties: {}
+          readOnly: true
+          type: object
+        public_key:
+          type: string
+          writeOnly: true
+        service:
+          format: uuid
+          type: string
+      required:
+      - id
+      - name
+      - provider_keys
+      - public_key
+      - service
+      type: object
+    UnifiedLogDestination:
+      properties:
+        anonymize_ip:
+          type: boolean
+        credentials:
+          type: string
+          writeOnly: true
+        file_format:
+          $ref: '#/components/schemas/FileFormatEnum'
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          type: string
+        s3_bucket:
+          type: string
+        s3_domain:
+          maxLength: 1024
+          type: string
+        s3_path:
+          maxLength: 1024
+          type: string
+        s3_region:
+          maxLength: 1024
+          type: string
+        service:
+          format: uuid
+          type: string
+        type:
+          $ref: '#/components/schemas/UnifiedLogDestinationTypeEnum'
+      required:
+      - id
+      - s3_bucket
+      - service
+      type: object
+    UnifiedLogDestinationTypeEnum:
+      description: '* `S3` - S3
+
+        * `S3_COMPATIBLE` - S3 Compatible
+
+        * `HYDROLIX` - Hydrolix'
+      enum:
+      - S3
+      - S3_COMPATIBLE
+      - HYDROLIX
+      type: string
+    UserCompute:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        name:
+          maxLength: 255
+          pattern: ^(?=[a-zA-Z_])(?=\S)([a-zA-Z]|[a-zA-Z][a-zA-Z0-9_\- ]+)$
+          type: string
+        origin_request:
+          maxLength: 1048576
+          nullable: true
+          type: string
+        origin_response:
+          maxLength: 1048576
+          nullable: true
+          type: string
+        routes:
+          items:
+            type: string
+          maxItems: 1024
+          type: array
+        viewer_request:
+          maxLength: 1048576
+          nullable: true
+          type: string
+        viewer_response:
+          maxLength: 1048576
+          nullable: true
+          type: string
+      required:
+      - id
+      - name
+      - routes
+      type: object
+    ViewerProtocolEnum:
+      description: '* `HTTP_AND_HTTPS` - Http And Https
+
+        * `HTTPS_ONLY` - Https Only
+
+        * `REDIRECT_HTTP_TO_HTTPS` - Redirect Http To Https'
+      enum:
+      - HTTP_AND_HTTPS
+      - HTTPS_ONLY
+      - REDIRECT_HTTP_TO_HTTPS
+      type: string
+    WAFCustomRule:
+      properties:
+        action:
+          maxLength: 255
+          type: string
+        condition: {}
+        enabled:
+          default: false
+          type: boolean
+        id:
+          format: uuid
+          nullable: true
+          type: string
+        name:
+          maxLength: 255
+          type: string
+      required:
+      - action
+      - condition
+      - name
+      type: object
+    WAFCustomRules:
+      properties:
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        rules:
+          items:
+            $ref: '#/components/schemas/WAFCustomRule'
+          type: array
+      required:
+      - id
+      - rules
+      type: object
+    WAFManagedRuleSet:
+      properties:
+        anomaly_threshold:
+          default: 40
+          minimum: 1
+          type: integer
+        block:
+          default: true
+          type: boolean
+        disabled_prefixes:
+          items:
+            type: integer
+          maxItems: 100
+          type: array
+        enabled:
+          default: false
+          type: boolean
+        id:
+          format: uuid
+          readOnly: true
+          type: string
+        paranoia_level:
+          default: 1
+          maximum: 4
+          minimum: 1
+          type: integer
+      required:
+      - id
+      type: object
+    model.Event:
+      properties:
+        account_id:
+          type: string
+        action_taken:
+          type: boolean
+        checks:
+          items:
+            type: string
+          type: array
+        code:
+          type: string
+        id:
+          type: string
+        locations:
+          items:
+            type: string
+          type: array
+        providers:
+          items:
+            $ref: '#/components/schemas/model.Provider'
+          type: array
+        service_id:
+          type: string
+        severity:
+          type: string
+        time:
+          type: string
+        updated_on:
+          type: string
+      type: object
+    model.Provider:
+      properties:
+        provider_id:
+          type: string
+        provider_name:
+          type: string
+      type: object
+    server.ResponseBody:
+      properties:
+        events:
+          items:
+            $ref: '#/components/schemas/model.Event'
+          type: array
+        partial:
+          type: boolean
+      type: object
+  securitySchemes:
+    IORiver Authentication:
+      description: 'Value should be formatted: `Token <key>`'
+      in: header
+      name: Authorization
+      type: apiKey
+    IORiver authentication:
+      description: 'Value should be formatted: `Token <key>`'
+      in: header
+      name: Authorization
+      type: apiKey
+info:
+  contact:
+    email: support@ioriver.io
+    name: support
+  description: IO River REST API Reference
+  license:
+    name: "IO River \xA9 All Rights Reserved 2022 \u2014 2026"
+  termsOfService: https://www.ioriver.io/terms-of-use
+  title: IO River API
+  version: ''
+openapi: 3.0.0
+paths:
+  /api/v1/account-provider-commitment/:
+    get:
+      description: Returns the list of account provider commitments of an account.
+      operationId: account_provider_commitment_list
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AccountProviderCommitment'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all account provider commitments
+      tags:
+      - Account provider commitments
+    post:
+      description: Adds a new account provider commitment to an account.
+      operationId: account_provider_commitment_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountProviderCommitment'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProviderCommitment'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new account provider commitment
+      tags:
+      - Account provider commitments
+  /api/v1/account-provider-commitment/{id}/:
+    delete:
+      description: Removes an existing account provider commitment from an account.
+      operationId: account_provider_commitment_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing account provider commitment
+      tags:
+      - Account provider commitments
+    get:
+      description: Gets a specific account provider commitment.
+      operationId: account_provider_commitment_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProviderCommitment'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve an account provider commitment
+      tags:
+      - Account provider commitments
+    put:
+      description: Updates an existing account provider commitment of an account.
+      operationId: account_provider_commitment_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountProviderCommitment'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProviderCommitment'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing account provider commitment
+      tags:
+      - Account provider commitments
+  /api/v1/account-providers/:
+    get:
+      description: Returns the list of account providers of an account.
+      operationId: account_providers_list
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AccountProvider'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all account providers
+      tags:
+      - Account Providers
+    post:
+      description: Adds a new account provider to an account.
+      operationId: account_providers_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountProvider'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProvider'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new account provider
+      tags:
+      - Account Providers
+  /api/v1/account-providers/{id}/:
+    delete:
+      description: Removes an existing account provider from an account.
+      operationId: account_providers_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing account provider
+      tags:
+      - Account Providers
+    get:
+      description: Gets a specific account provider.
+      operationId: account_providers_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProvider'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve an account provider
+      tags:
+      - Account Providers
+    put:
+      description: Updates an existing account provider of an account.
+      operationId: account_providers_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountProvider'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProvider'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing account provider
+      tags:
+      - Account Providers
+  /api/v1/account-providers/{id}/switch_to_read_write/:
+    post:
+      description: Switch account provider to read-write
+      operationId: account_providers_switch_to_read_write_create
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProvider'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Switch account provider to read-write
+      tags:
+      - Account Providers
+  /api/v1/aggregated-events/account/{account_id}:
+    get:
+      description: gets events for account UUID, filtered down with optional query
+        params
+      parameters:
+      - description: Start time in unix-millis (@end param MUST be present)
+        in: query
+        name: start
+        schema:
+          type: integer
+      - description: End time in unix-millis (@start param MUST be present)
+        in: query
+        name: end
+        schema:
+          type: integer
+      - description: Comma-separated list of locations (ISO3166-2)
+        in: query
+        name: locations
+        schema:
+          type: string
+      - description: Comma-separated CDN provider names to filter by
+        in: query
+        name: providers
+        schema:
+          type: string
+      - description: Comma-separated codes to include
+        in: query
+        name: codes
+        schema:
+          type: string
+      - description: Comma-separated severity levels to include
+        in: query
+        name: severities
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/server.ResponseBody'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Internal Server Error
+      summary: Get traffic events for account
+      tags:
+      - Traffic Events
+  /api/v1/aggregated-events/service/{service_id}:
+    get:
+      description: gets events for service UUID, filtered down with optional query
+        params
+      parameters:
+      - description: Start time in unix-millis (@end param MUST be present)
+        in: query
+        name: start
+        schema:
+          type: integer
+      - description: End time in unix-millis (@start param MUST be present)
+        in: query
+        name: end
+        schema:
+          type: integer
+      - description: Comma-separated list of locations (ISO3166-2)
+        in: query
+        name: locations
+        schema:
+          type: string
+      - description: Comma-separated CDN provider names to filter by
+        in: query
+        name: providers
+        schema:
+          type: string
+      - description: Comma-separated codes to include
+        in: query
+        name: codes
+        schema:
+          type: string
+      - description: Comma-separated severity levels to include
+        in: query
+        name: severities
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/server.ResponseBody'
+          description: OK
+        '400':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Bad Request
+        '500':
+          content:
+            application/json:
+              schema:
+                type: string
+          description: Internal Server Error
+      summary: Get traffic events for service
+      tags:
+      - Traffic Events
+  /api/v1/alert-channels/:
+    get:
+      description: Returns the list of alert channels of a service.
+      operationId: alert_channels_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/AlertChannel'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all alert channels
+      tags:
+      - Alert Channels
+    post:
+      description: Adds a new alert channel to a service.
+      operationId: alert_channels_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertChannel'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertChannel'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new alert channel
+      tags:
+      - Alert Channels
+  /api/v1/alert-channels/{id}/:
+    delete:
+      description: Removes an existing alert channel from a service.
+      operationId: alert_channels_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing alert channel
+      tags:
+      - Alert Channels
+    get:
+      description: Gets a specific alert channel.
+      operationId: alert_channels_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertChannel'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve an alert channel
+      tags:
+      - Alert Channels
+    put:
+      description: Updates an existing alert channel of a service.
+      operationId: alert_channels_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlertChannel'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlertChannel'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing alert channel
+      tags:
+      - Alert Channels
+  /api/v1/alerts/:
+    get:
+      description: Returns the list of alerts of a service.
+      operationId: alerts_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Alert'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all alerts
+      tags:
+      - Alerts
+    post:
+      description: Adds a new alert to a service.
+      operationId: alerts_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alert'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new alert
+      tags:
+      - Alerts
+  /api/v1/alerts/{id}/:
+    delete:
+      description: Removes an existing alert from a service.
+      operationId: alerts_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing alert
+      tags:
+      - Alerts
+    get:
+      description: Gets a specific alert.
+      operationId: alerts_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve an alert
+      tags:
+      - Alerts
+    put:
+      description: Updates an existing alert of a service.
+      operationId: alerts_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Alert'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alert'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing alert
+      tags:
+      - Alerts
+  /api/v1/alerts/{id}/test_sending/:
+    post:
+      description: Test alert sending
+      operationId: alerts_test_sending_create
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Test alert sending
+      tags:
+      - Alerts
+  /api/v1/certificates/:
+    get:
+      description: Returns the list of certificates of an account.
+      operationId: certificates_list
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Certificate'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all certificates
+      tags:
+      - Certificates
+    post:
+      description: '
+
+        Adds a new certificate. The certificate can be of the following types:
+
+
+        - Managed: Certificate is created and managed by the IO River platform.
+
+        - Self-Managed: Import a certificate that was self created.
+
+        - External: Certificate was manually deployed in each provider.
+
+        '
+      operationId: certificates_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new certificate
+      tags:
+      - Certificates
+  /api/v1/certificates/{id}/:
+    delete:
+      description: Removes an existing certificate from an account.
+      operationId: certificates_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing certificate
+      tags:
+      - Certificates
+    get:
+      description: Gets a specific certificate.
+      operationId: certificates_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a certificate
+      tags:
+      - Certificates
+    put:
+      description: Updates an existing certificate of an account.
+      operationId: certificates_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing certificate
+      tags:
+      - Certificates
+  /api/v1/purges/{service_id}:
+    get:
+      operationId: get_all_purges
+      parameters:
+      - description: IORiver service ID
+        in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - description: Unix timestamp milliseconds from epoch
+        in: path
+        name: start_time
+        required: true
+        schema:
+          type: int
+      - description: Unix timestamp milliseconds from epoch
+        in: path
+        name: end_time
+        required: true
+        schema:
+          type: int
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PurgeRecord'
+                type: array
+          description: ''
+      security:
+      - IORiver Authentication: []
+      tags:
+      - Purge
+  /api/v1/purges/{service_id}/purge:
+    post:
+      description: Purge by paths/patterns
+      operationId: purge
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurgeRequest'
+        required: true
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver Authentication: []
+      summary: Purge by paths/patterns
+      tags:
+      - Purge
+  /api/v1/purges/{service_id}/purge-all:
+    post:
+      description: Purge all
+      operationId: purge_all
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          description: IORiver service ID
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver Authentication: []
+      summary: Purge all
+      tags:
+      - Purge
+  /api/v1/purges/{service_id}/purge-cache-tags:
+    post:
+      description: Purge by cache tags
+      operationId: purge_tags
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          description: IORiver service ID
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurgeTagsRequest'
+        required: true
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver Authentication: []
+      summary: Purge by cache tags
+      tags:
+      - Purge
+  /api/v1/services/:
+    get:
+      description: Returns the list of services of an account.
+      operationId: services_list
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Service'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all services
+      tags:
+      - Services
+    post:
+      description: Adds a new service to an account.
+      operationId: services_create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Service'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new service
+      tags:
+      - Services
+  /api/v1/services/create_from_service_config/:
+    post:
+      description: Create a new service from the service configuration JSON for Terraform
+        clients.
+      operationId: services_create_from_service_config_create
+      parameters:
+      - description: A Terraform version header.
+        in: header
+        name: X-Terraform-Version
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceConfig'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a service from service configs.
+      tags:
+      - Services
+  /api/v1/services/{id}/:
+    delete:
+      description: Removes an existing service from an account.
+      operationId: services_destroy
+      parameters:
+      - description: Disconnect service
+        in: query
+        name: disconnect
+        schema:
+          default: false
+          type: boolean
+      - description: Destroy with force
+        in: query
+        name: force
+        schema:
+          default: false
+          type: boolean
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing service
+      tags:
+      - Services
+    get:
+      description: Gets a specific service.
+      operationId: services_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Service'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a service
+      tags:
+      - Services
+    put:
+      description: Updates an existing service of an account.
+      operationId: services_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUpdate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceUpdate'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing service
+      tags:
+      - Services
+  /api/v1/services/{id}/current_service_config/:
+    get:
+      description: Get the current version of the service configurations
+      operationId: services_current_service_config_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceConfigVersion'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get the current service config
+      tags:
+      - Services
+  /api/v1/services/{id}/provider_service_exists/:
+    get:
+      description: Check if given CDN provider already has a service matching given
+        domain
+      operationId: services_provider_service_exists_retrieve
+      parameters:
+      - description: Account provider ID
+        in: query
+        name: account_provider_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderExistsResponse'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Provider Exists
+      tags:
+      - Services
+  /api/v1/services/{service_id}/behaviors/:
+    get:
+      description: Returns the list of behaviors of a service.
+      operationId: services_behaviors_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Behavior'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all behaviors
+      tags:
+      - Behaviors
+    post:
+      description: Adds a new behavior to a service.
+      operationId: services_behaviors_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Behavior'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Behavior'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new behavior
+      tags:
+      - Behaviors
+  /api/v1/services/{service_id}/behaviors/reset_default_behavior/:
+    put:
+      description: Reset default behavior
+      operationId: services_behaviors_reset_default_behavior_update
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Behavior'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Reset default behavior
+      tags:
+      - Behaviors
+  /api/v1/services/{service_id}/behaviors/update_all/:
+    put:
+      description: Update all behaviors
+      operationId: services_behaviors_update_all_update
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Behavior'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update all behaviors
+      tags:
+      - Behaviors
+  /api/v1/services/{service_id}/behaviors/{id}/:
+    delete:
+      description: Removes an existing behavior from a service.
+      operationId: services_behaviors_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing behavior
+      tags:
+      - Behaviors
+    get:
+      description: Gets a specific behavior.
+      operationId: services_behaviors_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Behavior'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a behavior
+      tags:
+      - Behaviors
+    put:
+      description: Updates an existing behavior of a service.
+      operationId: services_behaviors_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Behavior'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Behavior'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing behavior
+      tags:
+      - Behaviors
+  /api/v1/services/{service_id}/certificates/:
+    get:
+      description: Returns the list of service certificates of a service.
+      operationId: services_certificates_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ServiceCertificate'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all service certificates
+      tags:
+      - Service Certificates
+    post:
+      description: Add certificate to service
+      operationId: services_certificates_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceCertificate'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceCertificate'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Add certificate to service
+      tags:
+      - Service Certificates
+  /api/v1/services/{service_id}/certificates/{id}/:
+    delete:
+      description: Remove certificate from service
+      operationId: services_certificates_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Remove certificate from service
+      tags:
+      - Service Certificates
+    get:
+      description: Gets a specific service certificate.
+      operationId: services_certificates_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceCertificate'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a service certificate
+      tags:
+      - Service Certificates
+  /api/v1/services/{service_id}/certificates/{service_certificate_id}/replace/:
+    put:
+      description: Replace certificate in service
+      operationId: services_certificates_replace_update
+      parameters:
+      - in: path
+        name: service_certificate_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceCertificate'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceCertificate'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Replace certificate in service
+      tags:
+      - Service Certificates
+  /api/v1/services/{service_id}/compute/:
+    get:
+      description: Returns the list of compute functions of a service.
+      operationId: services_compute_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Compute'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all compute functions
+      tags:
+      - Computes
+    post:
+      description: Adds a new compute function to a service.
+      operationId: services_compute_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Compute'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compute'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new compute function
+      tags:
+      - Computes
+  /api/v1/services/{service_id}/compute/{id}/:
+    delete:
+      description: Removes an existing compute function from a service.
+      operationId: services_compute_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing compute function
+      tags:
+      - Computes
+    get:
+      description: Gets a specific compute function.
+      operationId: services_compute_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compute'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a compute function
+      tags:
+      - Computes
+    put:
+      description: Updates an existing compute function of a service.
+      operationId: services_compute_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Compute'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Compute'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing compute function
+      tags:
+      - Computes
+  /api/v1/services/{service_id}/domains/:
+    get:
+      description: Returns the list of domains of a service.
+      operationId: services_domains_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/DomainConfig'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all domains
+      tags:
+      - Domains
+    post:
+      description: Adds a new domain to a service.
+      operationId: services_domains_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainConfig'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainConfig'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new domain
+      tags:
+      - Domains
+  /api/v1/services/{service_id}/domains/{id}/:
+    delete:
+      description: Removes an existing domain from a service.
+      operationId: services_domains_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing domain
+      tags:
+      - Domains
+    get:
+      description: Gets a specific domain.
+      operationId: services_domains_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainConfig'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a domain
+      tags:
+      - Domains
+    put:
+      description: Updates an existing domain of a service.
+      operationId: services_domains_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainConfig'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DomainConfig'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing domain
+      tags:
+      - Domains
+  /api/v1/services/{service_id}/geo-restriction/:
+    get:
+      description: Returns the list of geo restrictions of a service.
+      operationId: services_geo_restriction_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/GeoRestriction'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all geo restrictions
+      tags:
+      - Geo Restrictions
+    post:
+      description: Adds a new geo restriction to a service.
+      operationId: services_geo_restriction_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeoRestriction'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoRestriction'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new geo restriction
+      tags:
+      - Geo Restrictions
+  /api/v1/services/{service_id}/geo-restriction/{id}/:
+    delete:
+      description: Removes an existing geo restriction from a service.
+      operationId: services_geo_restriction_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing geo restriction
+      tags:
+      - Geo Restrictions
+    get:
+      description: Gets a specific geo restriction.
+      operationId: services_geo_restriction_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoRestriction'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a geo restriction
+      tags:
+      - Geo Restrictions
+    put:
+      description: Updates an existing geo restriction of a service.
+      operationId: services_geo_restriction_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GeoRestriction'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoRestriction'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing geo restriction
+      tags:
+      - Geo Restrictions
+  /api/v1/services/{service_id}/health-checks/:
+    get:
+      description: Returns the list of health-checks of a service.
+      operationId: services_health_checks_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/HealthCheck'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all health-checks
+      tags:
+      - Health Checks
+    post:
+      description: Adds a new health-check to a service.
+      operationId: services_health_checks_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HealthCheck'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheck'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new health-check
+      tags:
+      - Health Checks
+  /api/v1/services/{service_id}/health-checks/{id}/:
+    delete:
+      description: Removes an existing health-check from a service.
+      operationId: services_health_checks_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing health-check
+      tags:
+      - Health Checks
+    get:
+      description: Gets a specific health-check.
+      operationId: services_health_checks_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheck'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a health-check
+      tags:
+      - Health Checks
+    put:
+      description: Updates an existing health-check of a service.
+      operationId: services_health_checks_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HealthCheck'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheck'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing health-check
+      tags:
+      - Health Checks
+  /api/v1/services/{service_id}/load-balancers/:
+    get:
+      description: Returns the list of load-balancers of a service.
+      operationId: services_load_balancers_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/LoadBalancer'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all load-balancers
+      tags:
+      - Load Balancers
+    post:
+      description: Adds a new load-balancer to a service.
+      operationId: services_load_balancers_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoadBalancer'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoadBalancer'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new load-balancer
+      tags:
+      - Load Balancers
+  /api/v1/services/{service_id}/load-balancers/{id}/:
+    delete:
+      description: Removes an existing load-balancer from a service.
+      operationId: services_load_balancers_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing load-balancer
+      tags:
+      - Load Balancers
+    get:
+      description: Gets a specific load-balancer.
+      operationId: services_load_balancers_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoadBalancer'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a load-balancer
+      tags:
+      - Load Balancers
+    put:
+      description: Updates an existing load-balancer of a service.
+      operationId: services_load_balancers_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoadBalancer'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoadBalancer'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing load-balancer
+      tags:
+      - Load Balancers
+  /api/v1/services/{service_id}/load-balancers/{load_balancer_id}/custom-rules/:
+    get:
+      description: Returns the list of load-balancer custom rules of a load-balancer.
+      operationId: services_load_balancers_custom_rules_list
+      parameters:
+      - in: path
+        name: load_balancer_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/LoadBalancerCustomRule'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all load-balancer custom rules
+      tags:
+      - Load Balancer Custom Rules
+    post:
+      description: Adds a new load-balancer custom rule to a load-balancer.
+      operationId: services_load_balancers_custom_rules_create
+      parameters:
+      - in: path
+        name: load_balancer_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoadBalancerCustomRule'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoadBalancerCustomRule'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new load-balancer custom rule
+      tags:
+      - Load Balancer Custom Rules
+  /api/v1/services/{service_id}/load-balancers/{load_balancer_id}/custom-rules/{id}/:
+    delete:
+      description: Removes an existing load-balancer custom rule from a load-balancer.
+      operationId: services_load_balancers_custom_rules_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: load_balancer_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing load-balancer custom rule
+      tags:
+      - Load Balancer Custom Rules
+    get:
+      description: Gets a specific load-balancer custom rule.
+      operationId: services_load_balancers_custom_rules_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: load_balancer_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoadBalancerCustomRule'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a load-balancer custom rule
+      tags:
+      - Load Balancer Custom Rules
+    put:
+      description: Updates an existing load-balancer custom rule of a load-balancer.
+      operationId: services_load_balancers_custom_rules_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: load_balancer_id
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoadBalancerCustomRule'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoadBalancerCustomRule'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing load-balancer custom rule
+      tags:
+      - Load Balancer Custom Rules
+  /api/v1/services/{service_id}/log-destinations/:
+    get:
+      description: Returns the list of loggings of a service.
+      operationId: services_log_destinations_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UnifiedLogDestination'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all loggings
+      tags:
+      - Logs Destinations
+    post:
+      description: Adds a new logging to a service.
+      operationId: services_log_destinations_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedLogDestination'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedLogDestination'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new logging
+      tags:
+      - Logs Destinations
+  /api/v1/services/{service_id}/log-destinations/{id}/:
+    delete:
+      description: Removes an existing logging from a service.
+      operationId: services_log_destinations_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing logging
+      tags:
+      - Logs Destinations
+    get:
+      description: Gets a specific logging.
+      operationId: services_log_destinations_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedLogDestination'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a logging
+      tags:
+      - Logs Destinations
+    put:
+      description: Updates an existing logging of a service.
+      operationId: services_log_destinations_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedLogDestination'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedLogDestination'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing logging
+      tags:
+      - Logs Destinations
+  /api/v1/services/{service_id}/origin-sets-new/:
+    get:
+      description: Returns the list of origin sets of a service.
+      operationId: services_origin_sets_new_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/OriginSetSerializerNew'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all origin sets
+      tags:
+      - OriginSets
+    post:
+      description: Adds a new origin set to a service.
+      operationId: services_origin_sets_new_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OriginSetSerializerNew'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OriginSetSerializerNew'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new origin set
+      tags:
+      - OriginSets
+  /api/v1/services/{service_id}/origin-sets-new/{id}/:
+    delete:
+      description: Removes an existing origin set from a service.
+      operationId: services_origin_sets_new_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing origin set
+      tags:
+      - OriginSets
+    get:
+      description: Gets a specific origin set.
+      operationId: services_origin_sets_new_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OriginSetSerializerNew'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve an origin set
+      tags:
+      - OriginSets
+    put:
+      description: Updates an existing origin set of a service.
+      operationId: services_origin_sets_new_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OriginSetSerializerNew'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OriginSetSerializerNew'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing origin set
+      tags:
+      - OriginSets
+  /api/v1/services/{service_id}/origin-sets/:
+    get:
+      description: Returns the list of origin-sets of a service.
+      operationId: services_origin_sets_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/OriginSet'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all origin-sets
+      tags:
+      - Origin Sets
+    post:
+      description: Adds a new origin-set to a service.
+      operationId: services_origin_sets_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OriginSet'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OriginSet'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new origin-set
+      tags:
+      - Origin Sets
+  /api/v1/services/{service_id}/origin-sets/{id}/:
+    delete:
+      description: Removes an existing origin-set from a service.
+      operationId: services_origin_sets_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing origin-set
+      tags:
+      - Origin Sets
+    get:
+      description: Gets a specific origin-set.
+      operationId: services_origin_sets_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OriginSet'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve an origin-set
+      tags:
+      - Origin Sets
+    put:
+      description: Updates an existing origin-set of a service.
+      operationId: services_origin_sets_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OriginSet'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OriginSet'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing origin-set
+      tags:
+      - Origin Sets
+  /api/v1/services/{service_id}/origins/:
+    get:
+      description: Returns the list of origins of a service.
+      operationId: services_origins_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Origin'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all origins
+      tags:
+      - Origins
+    post:
+      description: Adds a new origin to a service.
+      operationId: services_origins_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Origin'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Origin'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new origin
+      tags:
+      - Origins
+  /api/v1/services/{service_id}/origins/{id}/:
+    delete:
+      description: Removes an existing origin from a service.
+      operationId: services_origins_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing origin
+      tags:
+      - Origins
+    get:
+      description: Gets a specific origin.
+      operationId: services_origins_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Origin'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve an origin
+      tags:
+      - Origins
+    put:
+      description: Updates an existing origin of a service.
+      operationId: services_origins_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Origin'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Origin'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing origin
+      tags:
+      - Origins
+  /api/v1/services/{service_id}/performance-checks/:
+    get:
+      description: Returns the list of performance-checks of a service.
+      operationId: services_performance_checks_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PerformanceCheck'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all performance-checks
+      tags:
+      - Performance Checks
+    post:
+      description: Adds a new performance-check to a service.
+      operationId: services_performance_checks_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PerformanceCheck'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceCheck'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new performance-check
+      tags:
+      - Performance Checks
+  /api/v1/services/{service_id}/performance-checks/{id}/:
+    delete:
+      description: Removes an existing performance-check from a service.
+      operationId: services_performance_checks_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing performance-check
+      tags:
+      - Performance Checks
+    get:
+      description: Gets a specific performance-check.
+      operationId: services_performance_checks_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceCheck'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a performance-check
+      tags:
+      - Performance Checks
+    put:
+      description: Updates an existing performance-check of a service.
+      operationId: services_performance_checks_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PerformanceCheck'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceCheck'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing performance-check
+      tags:
+      - Performance Checks
+  /api/v1/services/{service_id}/protocol-config/:
+    get:
+      description: Returns the list of protocol configs of a service.
+      operationId: services_protocol_config_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ProtocolConfig'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all protocol configs
+      tags:
+      - Protocol Configs
+    post:
+      description: Adds a new protocol config to a service.
+      operationId: services_protocol_config_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProtocolConfig'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtocolConfig'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new protocol config
+      tags:
+      - Protocol Configs
+  /api/v1/services/{service_id}/protocol-config/{id}/:
+    delete:
+      description: Removes an existing protocol config from a service.
+      operationId: services_protocol_config_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing protocol config
+      tags:
+      - Protocol Configs
+    get:
+      description: Gets a specific protocol config.
+      operationId: services_protocol_config_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtocolConfig'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a protocol config
+      tags:
+      - Protocol Configs
+    put:
+      description: Updates an existing protocol config of a service.
+      operationId: services_protocol_config_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProtocolConfig'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProtocolConfig'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing protocol config
+      tags:
+      - Protocol Configs
+  /api/v1/services/{service_id}/providers/:
+    get:
+      description: Returns the list of service-providers of a service.
+      operationId: services_providers_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ServiceProvider'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all service-providers
+      tags:
+      - Service Providers
+    post:
+      description: Adds a new service-provider to a service.
+      operationId: services_providers_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceProvider'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceProvider'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new service-provider
+      tags:
+      - Service Providers
+  /api/v1/services/{service_id}/providers/{id}/:
+    delete:
+      description: Removes an existing service-provider from a service.
+      operationId: services_providers_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing service-provider
+      tags:
+      - Service Providers
+    get:
+      description: Gets a specific service-provider.
+      operationId: services_providers_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceProvider'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a service-provider
+      tags:
+      - Service Providers
+    put:
+      description: Updates an existing service-provider of a service.
+      operationId: services_providers_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceProvider'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceProvider'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing service-provider
+      tags:
+      - Service Providers
+  /api/v1/services/{service_id}/traffic-policies/:
+    get:
+      description: Returns the list of traffic policies of a service.
+      operationId: services_traffic_policies_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TrafficPolicy'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all traffic policies
+      tags:
+      - Traffic Policies
+    post:
+      description: Adds a new traffic policy to a service.
+      operationId: services_traffic_policies_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrafficPolicy'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficPolicy'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new traffic policy
+      tags:
+      - Traffic Policies
+  /api/v1/services/{service_id}/traffic-policies/{id}/:
+    delete:
+      description: Removes an existing traffic policy from a service.
+      operationId: services_traffic_policies_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing traffic policy
+      tags:
+      - Traffic Policies
+    get:
+      description: Gets a specific traffic policy.
+      operationId: services_traffic_policies_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficPolicy'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a traffic policy
+      tags:
+      - Traffic Policies
+    put:
+      description: Updates an existing traffic policy of a service.
+      operationId: services_traffic_policies_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrafficPolicy'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficPolicy'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing traffic policy
+      tags:
+      - Traffic Policies
+  /api/v1/services/{service_id}/url-signing-keys/:
+    get:
+      description: Returns the list of securities of a service.
+      operationId: services_url_signing_keys_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/URLSigningKey'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all securities
+      tags:
+      - URL signing keys
+    post:
+      description: Adds a new security to a service.
+      operationId: services_url_signing_keys_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URLSigningKey'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/URLSigningKey'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new security
+      tags:
+      - URL signing keys
+  /api/v1/services/{service_id}/url-signing-keys/{id}/:
+    delete:
+      description: Removes an existing security from a service.
+      operationId: services_url_signing_keys_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing security
+      tags:
+      - URL signing keys
+    get:
+      description: Gets a specific security.
+      operationId: services_url_signing_keys_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/URLSigningKey'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a security
+      tags:
+      - URL signing keys
+    put:
+      description: Updates an existing security of a service.
+      operationId: services_url_signing_keys_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/URLSigningKey'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/URLSigningKey'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing security
+      tags:
+      - URL signing keys
+  /api/v1/services/{service_id}/user-compute/:
+    get:
+      description: Returns the list of user computes of a service.
+      operationId: services_user_compute_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserCompute'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all user computes
+      tags:
+      - User Computes
+    post:
+      description: Adds a new user compute to a service.
+      operationId: services_user_compute_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCompute'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCompute'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new user compute
+      tags:
+      - User Computes
+  /api/v1/services/{service_id}/user-compute/{id}/:
+    delete:
+      description: Removes an existing user compute from a service.
+      operationId: services_user_compute_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing user compute
+      tags:
+      - User Computes
+    get:
+      description: Gets a specific user compute.
+      operationId: services_user_compute_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCompute'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve an user compute
+      tags:
+      - User Computes
+    put:
+      description: Updates an existing user compute of a service.
+      operationId: services_user_compute_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCompute'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCompute'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing user compute
+      tags:
+      - User Computes
+  /api/v1/services/{service_id}/waf/custom/:
+    get:
+      description: Returns the list of waf custom rulesets of a service.
+      operationId: services_waf_custom_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/WAFCustomRules'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all waf custom rulesets
+      tags:
+      - WAF custom rulesets
+    post:
+      description: Adds a new waf custom ruleset to a service.
+      operationId: services_waf_custom_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WAFCustomRules'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WAFCustomRules'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new waf custom ruleset
+      tags:
+      - WAF custom rulesets
+  /api/v1/services/{service_id}/waf/custom/{id}/:
+    delete:
+      description: Removes an existing waf custom ruleset from a service.
+      operationId: services_waf_custom_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing waf custom ruleset
+      tags:
+      - WAF custom rulesets
+    get:
+      description: Gets a specific waf custom ruleset.
+      operationId: services_waf_custom_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WAFCustomRules'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a waf custom ruleset
+      tags:
+      - WAF custom rulesets
+    put:
+      description: Updates an existing waf custom ruleset of a service.
+      operationId: services_waf_custom_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WAFCustomRules'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WAFCustomRules'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing waf custom ruleset
+      tags:
+      - WAF custom rulesets
+  /api/v1/services/{service_id}/waf/managed/:
+    get:
+      description: Returns the list of waf managed rulesets of a service.
+      operationId: services_waf_managed_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/WAFManagedRuleSet'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all waf managed rulesets
+      tags:
+      - WAF managed rulesets
+    post:
+      description: Adds a new waf managed ruleset to a service.
+      operationId: services_waf_managed_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WAFManagedRuleSet'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WAFManagedRuleSet'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new waf managed ruleset
+      tags:
+      - WAF managed rulesets
+  /api/v1/services/{service_id}/waf/managed/{id}/:
+    delete:
+      description: Removes an existing waf managed ruleset from a service.
+      operationId: services_waf_managed_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing waf managed ruleset
+      tags:
+      - WAF managed rulesets
+    get:
+      description: Gets a specific waf managed ruleset.
+      operationId: services_waf_managed_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WAFManagedRuleSet'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a waf managed ruleset
+      tags:
+      - WAF managed rulesets
+    put:
+      description: Updates an existing waf managed ruleset of a service.
+      operationId: services_waf_managed_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WAFManagedRuleSet'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WAFManagedRuleSet'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing waf managed ruleset
+      tags:
+      - WAF managed rulesets
+  /api/v1/services/{service_id}/waf/rate-limit/:
+    get:
+      description: Returns the list of rate limit rulesets of a service.
+      operationId: services_waf_rate_limit_list
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/RateLimitRules'
+                type: array
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Get all rate limit rulesets
+      tags:
+      - Rate limit rulesets
+    post:
+      description: Adds a new rate limit ruleset to a service.
+      operationId: services_waf_rate_limit_create
+      parameters:
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RateLimitRules'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitRules'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Create a new rate limit ruleset
+      tags:
+      - Rate limit rulesets
+  /api/v1/services/{service_id}/waf/rate-limit/{id}/:
+    delete:
+      description: Removes an existing rate limit ruleset from a service.
+      operationId: services_waf_rate_limit_destroy
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '204':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Delete an existing rate limit ruleset
+      tags:
+      - Rate limit rulesets
+    get:
+      description: Gets a specific rate limit ruleset.
+      operationId: services_waf_rate_limit_retrieve
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitRules'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Retrieve a rate limit ruleset
+      tags:
+      - Rate limit rulesets
+    put:
+      description: Updates an existing rate limit ruleset of a service.
+      operationId: services_waf_rate_limit_update
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - in: path
+        name: service_id
+        required: true
+        schema:
+          format: uuid
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RateLimitRules'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitRules'
+          description: ''
+      security:
+      - IORiver authentication: []
+      summary: Update an existing rate limit ruleset
+      tags:
+      - Rate limit rulesets
+  /api/v1/services/{service}/generate-signing-keys/:
+    post:
+      operationId: services_generate_signing_keys_create
+      parameters:
+      - in: path
+        name: service
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Generate URL signing keys
+      tags:
+      - URL signing keys
+  /api/v1/services/{service}/origins/{origin}/update_s3_credentials:
+    put:
+      operationId: services_origins_update_s3_credentials_update
+      parameters:
+      - in: path
+        name: origin
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: service
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: No response body
+      security:
+      - IORiver authentication: []
+      summary: Update private S3 credentials
+      tags:
+      - Origins
+  /api/v2/traffic/overtime/{service_ids}:
+    get:
+      description: Get Traffic Overtime
+      operationId: traffic_overtime
+      parameters:
+      - description: Comma separated list of service IDs
+        in: path
+        name: service_ids
+        required: true
+        schema:
+          type: string
+      - description: Start time in Unix timestamp (milliseconds)
+        in: query
+        name: startTime
+        required: true
+        schema:
+          type: integer
+      - description: End time in Unix timestamp (milliseconds)
+        in: query
+        name: endTime
+        required: true
+        schema:
+          type: integer
+      - in: query
+        name: granularity
+        required: false
+        schema:
+          enum:
+          - MINUTE
+          - HOUR
+          - DAY
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrafficOvertimeResponse'
+          description: ''
+      security:
+      - IORiver Authentication: []
+      summary: Get Traffic Overtime
+      tags:
+      - Traffic Statistics
+servers:
+- description: IO River Documentation
+  url: https://manage.ioriver.io
